@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "ignorePatterns": ["node_modules/**"],
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-var": "error"
+      },
+      "globals": {
+        "process": "readonly",
+        "console": "readonly"
+      }
+    }
+  ]
+}
