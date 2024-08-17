@@ -1,5 +1,6 @@
 import { Facility } from '../models/facilityModel';
 import { Booking } from '../models/bookingModel';
+import { Request, Response } from 'express';
 
 // Check availability of time slots for a specific date
 export const checkAvailability = async (date?: string) => {
@@ -41,50 +42,6 @@ interface CreateBookingInput {
   endTime: string;
   user: string;
 }
-
-// export const createBooking = async ({
-//   facility,
-//   date,
-//   startTime,
-//   endTime,
-//   user,
-// }: CreateBookingInput) => {
-//   // Check for existing bookings that overlap with the requested time slot
-//   const existingBooking = await Booking.findOne({
-//     facility,
-//     date,
-//     startTime: { $lt: endTime },
-//     endTime: { $gt: startTime },
-//     isBooked: 'confirmed',
-//   });
-
-//   if (existingBooking) {
-//     throw new Error(
-//       'The facility is unavailable during the requested time slot.',
-//     );
-//   }
-
-//   const payableAmount = 30 * ((parseInt(endTime) - parseInt(startTime)) / 100);
-
-//   // const payableAmount = ((parseInt(endTime) - parseInt(startTime)) * pricePerHour;
-
-//   const newBooking = new Booking({
-//     facility,
-//     date,
-//     startTime,
-//     endTime,
-//     user,
-//     payableAmount,
-//     isBooked: 'confirmed',
-//   });
-
-//   return await newBooking.save();
-// };
-// // Dummy function to calculate payable amount, replace with your logic
-// const calculatePayableAmount = (startTime: string, endTime: string) => {
-//   // Implement your logic to calculate the amount based on time slots
-//   return 90; // Placeholder amount
-// };
 
 export const createBooking = async ({
   facility,
@@ -139,7 +96,7 @@ export const createBooking = async ({
 
 // Get all bookings (Admin Only)
 
-export const getAllBookings = async () => {
+export const getAllBookings = async (req: Request, res: Response) => {
   console.log('Fetching all bookings');
 
   try {
@@ -148,8 +105,12 @@ export const getAllBookings = async () => {
       .populate('user', 'name email phone role address')
       .exec();
 
-    console.log('Bookings with populated facility:', bookings);
-    return bookings;
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: 'Bookings retrieved successfully',
+      data: bookings,
+    });
   } catch (error) {
     console.error('Error fetching bookings:', error);
     throw error;
@@ -165,7 +126,6 @@ export const getUserBookings = async (userId: string) => {
 };
 
 export const cancelBooking = async (bookingId: string, userId: string) => {
-  // Find the booking by ID and ensure it belongs to the user making the request
   const booking = await Booking.findOne({ _id: bookingId, user: userId });
 
   if (!booking) {

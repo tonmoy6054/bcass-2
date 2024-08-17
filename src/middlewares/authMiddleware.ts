@@ -7,7 +7,7 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.headers.authorization?.split(' ')[1]; 
+  const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: No token provided' });
@@ -23,7 +23,6 @@ export const authMiddleware = (
       [key: string]: any;
     };
 
-    // Attach user info to the request object
     req.user = {
       _id: decoded.userId,
       role: decoded.role,

@@ -6,10 +6,8 @@ import catchAsync from '../utils/catchAsync';
 import { loginUser } from '../services/userService';
 
 export const login = catchAsync(async (req: Request, res: Response) => {
-  // Validate the request body using zod schema
   const loginData = loginUserSchema.parse(req.body);
 
-  // Authenticate the user and generate a token
   try {
     const { token, user } = await loginUser(
       loginData.email,

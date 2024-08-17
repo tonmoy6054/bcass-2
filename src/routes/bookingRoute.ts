@@ -9,7 +9,6 @@ import {
   getAllBookingsController,
   getUserBookingsController,
 } from '../controllers/bookingController';
-// import { adminMiddleware } from '../middlewares/adminMiddleware';
 
 const router = Router();
 
@@ -20,12 +19,7 @@ router.get('/check-availability', checkAvailabilityController);
 router.post('/bookings', authMiddleware, createBookingController);
 
 // Route to view all bookings (Admin Only)
-// router.get(
-//   '/bookings',
-//   authMiddleware,
-//   adminMiddleware,
-//   getAllBookingsController,
-// );
+
 router.get(
   '/bookings',
   authMiddleware,

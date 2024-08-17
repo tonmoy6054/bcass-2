@@ -7,6 +7,7 @@ import {
 } from '../services/bookingService';
 import { Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
+import { Booking } from '../models/bookingModel';
 
 // Controller to check availability of time slots
 export const checkAvailabilityController = catchAsync(
@@ -31,36 +32,6 @@ export const checkAvailabilityController = catchAsync(
     });
   },
 );
-// Controller to create a booking
-// export const createBookingController = catchAsync(
-//   async (req: Request, res: Response) => {
-//     const { facility, date, startTime, endTime } = req.body;
-//     const user = req.user?._id;
-
-//     if (!user) {
-//       return res.status(400).json({
-//         success: false,
-//         statusCode: 400,
-//         message: 'User not authenticated',
-//       });
-//     }
-
-//     const booking = await createBooking({
-//       facility,
-//       date,
-//       startTime,
-//       endTime,
-//       user: user as string,
-//     });
-
-//     res.status(200).json({
-//       success: true,
-//       statusCode: 200,
-//       message: 'Booking created successfully',
-//       data: booking,
-//     });
-//   },
-// );
 
 export const createBookingController = catchAsync(
   async (req: Request, res: Response) => {
@@ -95,16 +66,13 @@ export const createBookingController = catchAsync(
 // Controller to view all bookings (Admin Only)
 export const getAllBookingsController = catchAsync(
   async (req: Request, res: Response) => {
-    const bookings = await getAllBookings();
+    const bookings = await Booking.find()
+      .populate('facility', 'name description pricePerHour location isDeleted')
+      .populate('user', 'name email phone role address')
+      .lean()
+      .exec();
 
-    if (bookings.length === 0) {
-      return res.status(404).json({
-        success: false,
-        statusCode: 404,
-        message: 'No Data Found',
-        data: [],
-      });
-    }
+    console.log('Bookings with populated facility:', bookings);
 
     res.status(200).json({
       success: true,

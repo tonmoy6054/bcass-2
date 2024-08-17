@@ -4,7 +4,7 @@
 
 BCPro-2 is a robust backend system designed to manage a sports facility booking platform. It provides functionalities for user authentication, facility management, booking operations, and much more. This project is built using modern web technologies, with a focus on scalability, security, and performance.
 
-**Live URL**: [](#)
+**Live URL**: [https://bcpro-2.vercel.app/](#)
 
 ## Features
 
@@ -42,7 +42,7 @@ Follow these instructions to set up the project on your local machine.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/bcpro-2.git
+git clone https://github.com/tonmoy6054/bcass-2
 cd bcpro-2
 
 Install Dependencies: npm install

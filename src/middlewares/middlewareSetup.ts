@@ -13,7 +13,7 @@ export const setupMiddleware = (app: Application) => {
 
   // Route middlewares
   app.use('/api/auth', authRoutes);
-  // app.use('/api', authMiddleware); // Uncomment if needed
+
   app.use('/api', userRoute);
   app.use('/api', facultyRoute);
   app.use('/api', bookingRoute);
